@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anna Sokolova · English Tutor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1e3a5f;
+    --navy-dark: #0f2440;
+    --burgundy: #8b1e3f;
+    --burgundy-light: #b8325a;
+    --cream: #faf7f2;
+    --cream-dark: #f0ebe0;
+    --gold: #d4a574;
+    --gold-dark: #b8894f;
+    --red: #c8102e;
+    --blue: #012169;
+    --text: #1a2332;
+    --muted: #5a6478;
+    --border: #e5dfd3;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1150px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; }
+
+  /* ===== Translatable fade ===== */
+  [data-i18n], [data-i18n-placeholder] {
+    transition: opacity 0.25s ease;
+  }
+  body.lang-switching [data-i18n],
+  body.lang-switching [data-i18n-placeholder] {
+    opacity: 0.3;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--navy-dark);
+    color: white;
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--burgundy);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .logo-flag {
+    width: 32px; height: 22px;
+    background-color: var(--blue);
+    background-image:
+      linear-gradient(white, white),
+      linear-gradient(white, white),
+      linear-gradient(var(--red), var(--red)),
+      linear-gradient(var(--red), var(--red));
+    background-size: 100% 20%, 20% 100%, 100% 8%, 8% 100%;
+    background-position: 0 50%, 50% 0, 0 50%, 50% 0;
+    background-repeat: no-repeat;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .nav-menu { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: color 0.3s;
+  }
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -6px;
+    width: 0; height: 2px;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav a:hover { color: var(--gold); }
+  .nav a:hover::after { width: 100%; }
+
+  /* ===== Language Switcher ===== */
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 30px;
+    padding: 4px;
+    gap: 2px;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+  }
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+  .lang-btn:hover {
+    color: white;
+    background: rgba(255,255,255,0.08);
+  }
+  .lang-btn.active {
+    background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
+    color: white;
+    box-shadow: 0 3px 10px rgba(139,30,63,0.4);
+  }
+  .lang-flag {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: white;
+    padding: 100px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(255,255,255,0.02) 60px, rgba(255,255,255,0.02) 62px),
+      repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(255,255,255,0.02) 60px, rgba(255,255,255,0.02) 62px);
+    pointer-events: none;
+  }
+  .floating-letters {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .floating-letter {
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    color: rgba(255,255,255,0.06);
+    animation: float 15s infinite ease-in-out;
+    user-select: none;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-40px) rotate(15deg); }
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  .hero-text .tagline {
+    display: inline-block;
+    background: rgba(212,165,116,0.15);
+    color: var(--gold);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border: 1px solid rgba(212,165,116,0.3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 900;
+  }
+  .hero h1 .accent {
+    color: var(--gold);
+    font-style: italic;
+    position: relative;
+  }
+  .hero h1 .accent::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 5px;
+    width: 100%; height: 8px;
+    background: var(--burgundy);
+    opacity: 0.5;
+    z-index: -1;
+  }
+  .typewriter {
+    font-family: 'Caveat', cursive;
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin-bottom: 25px;
+    min-height: 2.5rem;
+  }
+  .typewriter::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: var(--gold);
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero-desc {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 35px;
+    max-width: 500px;
+  }
+  .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+
+  .hero-visual {
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .book-stack {
+    position: relative;
+    width: 280px;
+    height: 340px;
+  }
+  .book {
+    position: absolute;
+    width: 220px;
+    height: 280px;
+    border-radius: 4px 10px 10px 4px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    font-family: 'Playfair Display', serif;
+    transition: transform 0.4s;
+  }
+  .book:hover { transform: translateY(-10px) rotate(-2deg); }
+  .book-1 {
+    background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
+    transform: rotate(-8deg) translateX(-30px);
+    z-index: 1;
+  }
+  .book-2 {
+    background: linear-gradient(135deg, var(--navy), #2a4a75);
+    transform: rotate(4deg) translateX(30px) translateY(20px);
+    z-index: 2;
+    border-left: 6px solid var(--gold);
+  }
+  .book-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .book-sub {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+  }
+  .book-ornament {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 15px 0;
+  }
+  .tea-cup {
+    position: absolute;
+    top: 10px; right: 10px;
+    font-size: 3rem;
+    animation: steam 3s infinite ease-in-out;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+  }
+  @keyframes steam {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+  .word-bubble {
+    position: absolute;
+    background: white;
+    color: var(--navy);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    animation: bubble 4s infinite ease-in-out;
+  }
+  .word-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 20px;
+    width: 12px; height: 12px;
+    background: white;
+    transform: rotate(45deg);
+  }
+  .wb-1 { top: 20px; left: -20px; animation-delay: 0s; }
+  .wb-2 { bottom: 40px; right: -30px; animation-delay: 1.5s; }
+  .wb-3 { top: 50%; left: -50px; animation-delay: 0.8s; }
+  @keyframes bubble {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    display: inline-block;
+    padding: 15px 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary {
+    background: var(--burgundy);
+    color: white;
+    box-shadow: 0 6px 20px rgba(139,30,63,0.4);
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+  }
+  .btn-primary:hover::before { left: 100%; }
+  .btn-primary:hover {
+    background: var(--burgundy-light);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(139,30,63,0.5);
+  }
+  .btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid var(--gold);
+  }
+  .btn-outline:hover {
+    background: var(--gold);
+    color: var(--navy-dark);
+    transform: translateY(-3px);
+  }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 90px 0; position: relative; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-label {
+    display: inline-block;
+    font-family: 'Caveat', cursive;
+    color: var(--burgundy);
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 2.5rem;
+    color: var(--navy-dark);
+    margin-bottom: 12px;
+    font-weight: 900;
+  }
+  .section-title .dot { color: var(--burgundy); }
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ===== ABOUT ===== */
+  .about { background: var(--cream); position: relative; }
+  .about-quote {
+    position: absolute;
+    top: 40px; right: 40px;
+    font-family: 'Caveat', cursive;
+    color: var(--burgundy);
+    opacity: 0.15;
+    font-size: 1.5rem;
+    max-width: 300px;
+    text-align: right;
+    pointer-events: none;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .about-text h3 {
+    font-size: 1.8rem;
+    color: var(--navy-dark);
+    margin-bottom: 20px;
+  }
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 15px;
+    font-size: 1.02rem;
+  }
+  .credentials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+  }
+  .credential {
+    background: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--navy);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .credential::before { content: '🎓'; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .stat-card {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: all 0.4s;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--burgundy), var(--gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(30,58,95,0.15);
+  }
+  .stat-card:hover::before { transform: scaleX(1); }
+  .stat-icon { font-size: 2rem; margin-bottom: 10px; }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--navy-dark);
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .stat-label {
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ===== PRICING ===== */
+  .pricing-section {
+    background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+    position: relative;
+  }
+  .pricing-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--burgundy), var(--gold), var(--navy));
+  }
+  .pricing {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+  .price-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 28px;
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .price-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 0;
+    background: linear-gradient(180deg, transparent, rgba(139,30,63,0.03));
+    transition: height 0.4s;
+  }
+  .price-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(30,58,95,0.15);
+    border-color: var(--burgundy);
+  }
+  .price-card:hover::after { height: 100%; }
+  .price-card.featured {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: white;
+    border-color: var(--gold);
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(30,58,95,0.25);
+  }
+  .price-card.featured:hover { transform: scale(1.05) translateY(-10px); }
+  .price-card.featured .price-features li { color: rgba(255,255,255,0.9); }
+  .price-card.featured .price-features li::before { color: var(--gold); }
+  .price-card.featured .price-duration { color: rgba(255,255,255,0.7); }
+  .badge {
+    position: absolute;
+    top: 20px; right: -35px;
+    background: var(--gold);
+    color: var(--navy-dark);
+    padding: 5px 40px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transform: rotate(45deg);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .price-icon { font-size: 2.5rem; margin-bottom: 15px; }
+  .price-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .price-duration {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--burgundy);
+    margin: 15px 0;
+    line-height: 1;
+  }
+  .price-card.featured .price-amount { color: var(--gold); }
+  .price-amount small {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+  }
+  .price-card.featured .price-amount small { color: rgba(255,255,255,0.7); }
+  .price-features {
+    list-style: none;
+    margin: 25px 0;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+  }
+  .price-features li {
+    padding: 10px 0 10px 28px;
+    color: var(--muted);
+    position: relative;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.95rem;
+  }
+  .price-card.featured .price-features li { border-color: rgba(255,255,255,0.15); }
+  .price-features li:last-child { border: none; }
+  .price-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--burgundy);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .price-card .btn { width: 100%; position: relative; z-index: 2; }
+  .price-card.featured .btn { background: var(--gold); color: var(--navy-dark); }
+  .price-card.featured .btn:hover { background: white; }
+
+  /* ===== REVIEWS ===== */
+  .reviews-section { background: var(--cream); }
+  .reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+  .review-card {
+    background: white;
+    padding: 35px 30px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: all 0.4s;
+  }
+  .review-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px; left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: var(--burgundy);
+    opacity: 0.15;
+    line-height: 1;
+  }
+  .review-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(30,58,95,0.12);
+    border-color: var(--gold);
+  }
+  .stars {
+    color: var(--gold);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
+  .review-text {
+    color: var(--text);
+    margin-bottom: 25px;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    position: relative;
+    z-index: 2;
+  }
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .review-avatar {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--burgundy));
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .review-name { font-weight: 600; color: var(--navy-dark); }
+  .review-role { font-size: 0.85rem; color: var(--muted); }
+  .review-flag { margin-left: auto; font-size: 1.3rem; opacity: 0.6; }
+
+  /* ===== FORM ===== */
+  .form-section {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .form-bg-text {
+    position: absolute;
+    bottom: 30px; right: 40px;
+    font-family: 'Caveat', cursive;
+    font-size: 4rem;
+    color: rgba(212,165,116,0.1);
+    pointer-events: none;
+  }
+  .form-section .section-label { color: var(--gold); }
+  .form-section .section-title { color: white; }
+  .form-section .section-subtitle { color: rgba(255,255,255,0.8); }
+  .form-wrapper {
+    max-width: 650px;
+    margin: 0 auto;
+    background: white;
+    padding: 45px;
+    border-radius: 16px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    color: var(--text);
+    position: relative;
+    z-index: 2;
+  }
+  .form-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--burgundy), var(--gold), var(--navy));
+    border-radius: 16px 16px 0 0;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--navy-dark);
+  }
+  .form-group label .req { color: var(--burgundy); }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s;
+    background: var(--cream);
+    color: var(--text);
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--burgundy);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(139,30,63,0.1);
+  }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+  .form-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+  .form-submit::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+  }
+  .form-submit:hover::before { left: 100%; }
+  .form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(139,30,63,0.4);
+  }
+  .success-msg {
+    display: none;
+    background: #d4edda;
+    color: #155724;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+    border-left: 4px solid #28a745;
+    animation: slideDown 0.4s;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--navy-dark);
+    color: white;
+    padding: 50px 0 25px;
+    text-align: center;
+    border-top: 3px solid var(--burgundy);
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+  .footer-tagline {
+    font-family: 'Caveat', cursive;
+    color: var(--gold);
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+  }
+  .footer-contacts {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .footer-contacts a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.85;
+    transition: all 0.3s;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 0.95rem;
+  }
+  .footer-contacts a:hover {
+    opacity: 1;
+    background: var(--burgundy);
+    border-color: var(--burgundy);
+    transform: translateY(-2px);
+  }
+  .copyright {
+    opacity: 0.5;
+    font-size: 0.85rem;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ===== SCROLL ANIMATIONS ===== */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 900px) {
+    .hero-content, .about-grid { grid-template-columns: 1fr; }
+    .hero-visual { height: 350px; margin-top: 20px; }
+    .hero h1 { font-size: 2.5rem; }
+    .pricing, .reviews { grid-template-columns: 1fr; }
+    .price-card.featured { transform: none; }
+    .price-card.featured:hover { transform: translateY(-10px); }
+    .nav-menu { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-wrapper { padding: 30px 20px; }
+    .about-quote { display: none; }
+    .section-title { font-size: 2rem; }
+    .lang-btn span:not(.lang-flag) { display: none; }
+    .lang-btn { padding: 7px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <div class="logo-flag"></div>
+      <span data-i18n="logo">English with Anna</span>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#about" data-i18n="nav.about">Обо мне</a></li>
+      <li><a href="#pricing" data-i18n="nav.pricing">Цены</a></li>
+      <li><a href="#reviews" data-i18n="nav.reviews">Отзывы</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Записаться</a></li>
+    </ul>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="ru" aria-label="Русский">
+        <span class="lang-flag">🇷🇺</span><span>RU</span>
+      </button>
+      <button class="lang-btn" data-lang="en" aria-label="English">
+        <span class="lang-flag">🇬🇧</span><span>EN</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="floating-letters">
+    <span class="floating-letter" style="top:10%; left:5%; font-size:8rem; animation-delay:0s;">A</span>
+    <span class="floating-letter" style="top:60%; left:15%; font-size:6rem; animation-delay:2s;">B</span>
+    <span class="floating-letter" style="top:20%; right:10%; font-size:7rem; animation-delay:1s;">C</span>
+    <span class="floating-letter" style="top:70%; right:20%; font-size:5rem; animation-delay:3s;">Z</span>
+    <span class="floating-letter" style="top:40%; left:40%; font-size:9rem; animation-delay:1.5s;">W</span>
+  </div>
+  <div class="container hero-content">
+    <div class="hero-text">
+      <span class="tagline" data-i18n="hero.tagline">🇬🇧 Сертифицированный преподаватель</span>
+      <h1 data-i18n="hero.title">Заговорите на <span class="accent">English</span> уверенно</h1>
+      <div class="typewriter" id="typewriter"></div>
+      <p class="hero-desc" data-i18n="hero.desc">Индивидуальные онлайн-уроки с преподавателем, влюблённым в британскую культуру. От первого "Hello" до свободного общения — шаг за шагом.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn btn-primary" data-i18n="hero.cta1">Записаться на пробный урок →</a>
+        <a href="#pricing" class="btn btn-outline" data-i18n="hero.cta2">Смотреть цены</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="tea-cup">☕</div>
+      <div class="word-bubble wb-1">Hello!</div>
+      <div class="word-bubble wb-2">Cheers!</div>
+      <div class="word-bubble wb-3">Brilliant!</div>
+      <div class="book-stack">
+        <div class="book book-1">
+          <div class="book-ornament"></div>
+          <div class="book-title" data-i18n="book1.title">Grammar<br>&amp; Beyond</div>
+          <div class="book-ornament"></div>
+          <div class="book-sub" data-i18n="book1.sub">Advanced Level</div>
+        </div>
+        <div class="book book-2">
+          <div class="book-ornament"></div>
+          <div class="book-title" data-i18n="book2.title">Speak<br>English</div>
+          <div class="book-ornament"></div>
+          <div class="book-sub" data-i18n="book2.sub">Like a Native</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <div class="container">
+    <div class="about-quote" data-i18n="about.quote">"Learning is a treasure that will follow its owner everywhere"</div>
+    <div class="section-header fade-in">
+      <div class="section-label" data-i18n="about.label">Обо мне</div>
+      <h2 class="section-title" data-i18n="about.title">Ваш проводник в мир английского<span class="dot">.</span></h2>
+      <p class="section-subtitle" data-i18n="about.subtitle">8 лет помогаю взрослым и подросткам полюбить английский так же, как люблю его я</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <h3 data-i18n="about.hello">Привет! Я Анна 👋</h3>
+        <p data-i18n="about.p1">Сертифицированный преподаватель с дипломом <strong>CELTA</strong> (Cambridge) и лингвистическим образованием. За 8 лет провела более 3000 уроков и помогла сотням студентов достичь своих целей — от переезда за границу до сдачи IELTS на 7.5+.</p>
+        <p data-i18n="about.p2">Мой метод — это живое общение с первого урока, актуальные материалы (The Economist, TED Talks, Netflix) и чёткая структура. Никакой зубрёжки — только то, что реально работает.</p>
+        <p data-i18n="about.p3">Специализируюсь на разговорном английском, подготовке к IELTS/TOEFL и бизнес-английском для IT и финансов.</p>
+        <div class="credentials">
+          <div class="credential" data-i18n="cred.1">CELTA Certificate</div>
+          <div class="credential" data-i18n="cred.2">C2 Proficient</div>
+          <div class="credential" data-i18n="cred.3">IELTS Trainer</div>
+          <div class="credential" data-i18n="cred.4">Business English</div>
+        </div>
+      </div>
+      <div class="stats fade-in">
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-number" data-target="8">0</div>
+          <div class="stat-label" data-i18n="stat.1">лет опыта</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎓</div>
+          <div class="stat-number" data-target="300">0</div>
+          <div class="stat-label" data-i18n="stat.2">учеников</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-number" data-target="3000">0</div>
+          <div class="stat-label" data-i18n="stat.3">уроков проведено</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-number" data-target="98">0</div>
+          <div class="stat-label" data-i18n="stat.4">% довольных</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="pricing-section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label" data-i18n="pricing.label">Цены</div>
+      <h2 class="section-title" data-i18n="pricing.title">Стоимость занятий<span class="dot">.</span></h2>
+      <p class="section-subtitle" data-i18n="pricing.subtitle">Прозрачные цены без скрытых платежей. Первый урок — со скидкой</p>
+    </div>
+    <div class="pricing">
+      <div class="price-card fade-in">
+        <div class="price-icon">🎁</div>
+        <div class="price-title" data-i18n="price1.title">Пробный урок</div>
+        <div class="price-duration" data-i18n="price1.duration">45 минут · онлайн</div>
+        <div class="price-amount">990 ₽</div>
+        <ul class="price-features">
+          <li data-i18n="price1.f1">Определение уровня</li>
+          <li data-i18n="price1.f2">Персональный план обучения</li>
+          <li data-i18n="price1.f3">Рекомендации по материалам</li>
+          <li data-i18n="price1.f4">Без обязательств</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" data-i18n="price1.cta">Записаться</a>
+      </div>
+      <div class="price-card featured fade-in">
+        <div class="badge" data-i18n="price2.badge">Выгодно</div>
+        <div class="price-icon">📖</div>
+        <div class="price-title" data-i18n="price2.title">Пакет на месяц</div>
+        <div class="price-duration" data-i18n="price2.duration">8 уроков по 60 минут</div>
+        <div class="price-amount">14 400 ₽<small data-i18n="price2.per"> / мес</small></div>
+        <ul class="price-features">
+          <li data-i18n="price2.f1">Экономия 10% от разовых</li>
+          <li data-i18n="price2.f2">Домашние задания с проверкой</li>
+          <li data-i18n="price2.f3">Поддержка в Telegram 24/7</li>
+          <li data-i18n="price2.f4">Доступ к библиотеке материалов</li>
+          <li data-i18n="price2.f5">Ежемесячный отчёт о прогрессе</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" data-i18n="price2.cta">Выбрать</a>
+      </div>
+      <div class="price-card fade-in">
+        <div class="price-icon">💬</div>
+        <div class="price-title" data-i18n="price3.title">Разовое занятие</div>
+        <div class="price-duration" data-i18n="price3.duration">60 минут · онлайн</div>
+        <div class="price-amount">2 000 ₽</div>
+        <ul class="price-features">
+          <li data-i18n="price3.f1">Индивидуальный урок</li>
+          <li data-i18n="price3.f2">Любая тема на выбор</li>
+          <li data-i18n="price3.f3">Домашнее задание</li>
+          <li data-i18n="price3.f4">Без привязки к пакету</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" data-i18n="price3.cta">Записаться</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="reviews-section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label" data-i18n="reviews.label">Отзывы</div>
+      <h2 class="section-title" data-i18n="reviews.title">Отзывы учеников<span class="dot">.</span></h2>
+      <p class="section-subtitle" data-i18n="reviews.subtitle">Реальные истории тех, кто уже заговорил на английском</p>
+    </div>
+    <div class="reviews">
+      <div class="review-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="review-text" data-i18n="review1.text">Занимаюсь с Анной уже полгода. Наконец-то перестала бояться говорить! Уроки интересные, всегда есть разговорная практика. Сдала IELTS на 7.0 — спасибо огромное!</p>
+        <div class="review-author">
+          <div class="review-avatar">МК</div>
+          <div>
+            <div class="review-name">Мария К.</div>
+            <div class="review-role" data-i18n="review1.role">Переезд в Канаду · IELTS 7.0</div>
+          </div>
+          <div class="review-flag">🇨🇦</div>
+        </div>
+      </div>
+      <div class="review-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="review-text" data-i18n="review2.text">Готовился к собеседованию в международную компанию за 2 месяца. Разобрали все возможные вопросы, проработали бизнес-лексику. Работу получил! Анна — настоящий профи.</p>
+        <div class="review-author">
+          <div class="review-avatar">ДП</div>
+          <div>
+            <div class="review-name">Дмитрий П.</div>
+            <div class="review-role" data-i18n="review2.role">IT-менеджер · Google</div>
+          </div>
+          <div class="review-flag">💼</div>
+        </div>
+      </div>
+      <div class="review-card fade-in">
+        <div class="stars">★★★★★</div>
+        <p class="review-text" data-i18n="review3.text">Сыну 12 лет, занимается второй год. Прогресс заметен — в школе стал лучшим, начал смотреть сериалы в оригинале. Анна умеет найти подход к подросткам и увлечь предметом.</p>
+        <div class="review-author">
+          <div class="review-avatar">ЕС</div>
+          <div>
+            <div class="review-name">Елена С.</div>
+            <div class="review-role" data-i18n="review3.role">Мама ученика</div>
+          </div>
+          <div class="review-flag">👨‍🎓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="form-section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label" data-i18n="form.label">Запись</div>
+      <h2 class="section-title" data-i18n="form.title">Запись на пробный урок<span class="dot">.</span></h2>
+      <p class="section-subtitle" data-i18n="form.subtitle">Оставьте заявку — я свяжусь с вами в течение 24 часов</p>
+    </div>
+    <div class="form-bg-text" data-i18n="form.bg">Let's start!</div>
+    <div class="form-wrapper fade-in">
+      <div class="success-msg" id="successMsg" data-i18n="form.success">✓ Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.</div>
+      <form id="trialForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name" data-i18n="form.name">Ваше имя <span class="req">*</span></label>
+            <input type="text" id="name" name="name" required data-i18n-placeholder="form.namePh" placeholder="Как к вам обращаться?">
+          </div>
+          <div class="form-group">
+            <label for="phone" data-i18n="form.phone">Телефон / Telegram <span class="req">*</span></label>
+            <input type="text" id="phone" name="phone" required data-i18n-placeholder="form.phonePh" placeholder="+7 ... или @username">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="level" data-i18n="form.level">Ваш уровень</label>
+            <select id="level" name="level">
+              <option value="" data-i18n="form.levelOpt0">Не знаю / нужно определить</option>
+              <option value="beginner" data-i18n="form.levelOpt1">Начинающий (A1-A2)</option>
+              <option value="intermediate" data-i18n="form.levelOpt2">Средний (B1-B2)</option>
+              <option value="advanced" data-i18n="form.levelOpt3">Продвинутый (C1-C2)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="goal" data-i18n="form.goal">Цель обучения</label>
+            <select id="goal" name="goal">
+              <option value="" data-i18n="form.goalOpt0">Выберите цель</option>
+              <option value="speaking" data-i18n="form.goalOpt1">Разговорный английский</option>
+              <option value="work" data-i18n="form.goalOpt2">Для работы / карьеры</option>
+              <option value="travel" data-i18n="form.goalOpt3">Для путешествий</option>
+              <option value="exam" data-i18n="form.goalOpt4">IELTS / TOEFL</option>
+              <option value="school" data-i18n="form.goalOpt5">Школа / ЕГЭ / ОГЭ</option>
+              <option value="other" data-i18n="form.goalOpt6">Другое</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="comment" data-i18n="form.comment">Комментарий</label>
+          <textarea id="comment" name="comment" data-i18n-placeholder="form.commentPh" placeholder="Удобное время для связи, вопросы..."></textarea>
+        </div>
+        <button type="submit" class="form-submit" data-i18n="form.submit">Записаться на пробный урок →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-logo">🇬🇧 <span data-i18n="footer.logo">English with Anna</span></div>
+    <div class="footer-tagline" data-i18n="footer.tagline">"Пределы моего языка — пределы моего мира"</div>
+    <div class="footer-contacts">
+      <a href="tel:+79001234567">📞 +7 (900) 123-45-67</a>
+      <a href="mailto:anna@example.com">✉️ anna@example.com</a>
+      <a href="https://t.me/anna_english" target="_blank">💬 Telegram</a>
+      <a href="https://instagram.com/anna_english" target="_blank">📷 Instagram</a>
+    </div>
+    <div class="copyright" data-i18n="footer.copy">© 2026 Анна Соколова · Преподаватель английского · Сделано с ♥ и большим количеством чая</div>
+  </div>
+</footer>
+
+<script>
+  // ===== TRANSLATIONS =====
+  const translations = {
+    ru: {
+      'logo': 'English with Anna',
+      'nav.about': 'Обо мне',
+      'nav.pricing': 'Цены',
+      'nav.reviews': 'Отзывы',
+      'nav.contact': 'Записаться',
+      'hero.tagline': '🇬🇧 Сертифицированный преподаватель',
+      'hero.title': 'Заговорите на <span class="accent">English</span> уверенно',
+      'hero.desc': 'Индивидуальные онлайн-уроки с преподавателем, влюблённым в британскую культуру. От первого "Hello" до свободного общения — шаг за шагом.',
+      'hero.cta1': 'Записаться на пробный урок →',
+      'hero.cta2': 'Смотреть цены',
+      'book1.title': 'Grammar<br>&amp; Beyond',
+      'book1.sub': 'Продвинутый уровень',
+      'book2.title': 'Speak<br>English',
+      'book2.sub': 'Как носитель',
+      'about.quote': '"Учёба — это сокровище, которое всюду следует за владельцем"',
+      'about.label': 'Обо мне',
+      'about.title': 'Ваш проводник в мир английского<span class="dot">.</span>',
+      'about.subtitle': '8 лет помогаю взрослым и подросткам полюбить английский так же, как люблю его я',
+      'about.hello': 'Привет! Я Анна 👋',
+      'about.p1': 'Сертифицированный преподаватель с дипломом <strong>CELTA</strong> (Cambridge) и лингвистическим образованием. За 8 лет провела более 3000 уроков и помогла сотням студентов достичь своих целей — от переезда за границу до сдачи IELTS на 7.5+.',
+      'about.p2': 'Мой метод — это живое общение с первого урока, актуальные материалы (The Economist, TED Talks, Netflix) и чёткая структура. Никакой зубрёжки — только то, что реально работает.',
+      'about.p3': 'Специализируюсь на разговорном английском, подготовке к IELTS/TOEFL и бизнес-английском для IT и финансов.',
+      'cred.1': 'Сертификат CELTA',
+      'cred.2': 'Уровень C2',
+      'cred.3': 'Тренер IELTS',
+      'cred.4': 'Бизнес-английский',
+      'stat.1': 'лет опыта',
+      'stat.2': 'учеников',
+      'stat.3': 'уроков проведено',
+      'stat.4': '% довольных',
+      'pricing.label': 'Цены',
+      'pricing.title': 'Стоимость занятий<span class="dot">.</span>',
+      'pricing.subtitle': 'Прозрачные цены без скрытых платежей. Первый урок — со скидкой',
+      'price1.title': 'Пробный урок',
+      'price1.duration': '45 минут · онлайн',
+      'price1.f1': 'Определение уровня',
+      'price1.f2': 'Персональный план обучения',
+      'price1.f3': 'Рекомендации по материалам',
+      'price1.f4': 'Без обязательств',
+      'price1.cta': 'Записаться',
+      'price2.badge': 'Выгодно',
+      'price2.title': 'Пакет на месяц',
+      'price2.duration': '8 уроков по 60 минут',
+      'price2.per': ' / мес',
+      'price2.f1': 'Экономия 10% от разовых',
+      'price2.f2': 'Домашние задания с проверкой',
+      'price2.f3': 'Поддержка в Telegram 24/7',
+      'price2.f4': 'Доступ к библиотеке материалов',
+      'price2.f5': 'Ежемесячный отчёт о прогрессе',
+      'price2.cta': 'Выбрать',
+      'price3.title': 'Разовое занятие',
+      'price3.duration': '60 минут · онлайн',
+      'price3.f1': 'Индивидуальный урок',
+      'price3.f2': 'Любая тема на выбор',
+      'price3.f3': 'Домашнее задание',
+      'price3.f4': 'Без привязки к пакету',
+      'price3.cta': 'Записаться',
+      'reviews.label': 'Отзывы',
+      'reviews.title': 'Отзывы учеников<span class="dot">.</span>',
+      'reviews.subtitle': 'Реальные истории тех, кто уже заговорил на английском',
+      'review1.text': 'Занимаюсь с Анной уже полгода. Наконец-то перестала бояться говорить! Уроки интересные, всегда есть разговорная практика. Сдала IELTS на 7.0 — спасибо огромное!',
+      'review1.role': 'Переезд в Канаду · IELTS 7.0',
+      'review2.text': 'Готовился к собеседованию в международную компанию за 2 месяца. Разобрали все возможные вопросы, проработали бизнес-лексику. Работу получил! Анна — настоящий профи.',
+      'review2.role': 'IT-менеджер · Google',
+      'review3.text': 'Сыну 12 лет, занимается второй год. Прогресс заметен — в школе стал лучшим, начал смотреть сериалы в оригинале. Анна умеет найти подход к подросткам и увлечь предметом.',
+      'review3.role': 'Мама ученика',
+      'form.label': 'Запись',
+      'form.title': 'Запись на пробный урок<span class="dot">.</span>',
+      'form.subtitle': 'Оставьте заявку — я свяжусь с вами в течение 24 часов',
+      'form.bg': 'Поехали!',
+      'form.success': '✓ Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.',
+      'form.name': 'Ваше имя <span class="req">*</span>',
+      'form.namePh': 'Как к вам обращаться?',
+      'form.phone': 'Телефон / Telegram <span class="req">*</span>',
+      'form.phonePh': '+7 ... или @username',
+      'form.level': 'Ваш уровень',
+      'form.levelOpt0': 'Не знаю / нужно определить',
+      'form.levelOpt1': 'Начинающий (A1-A2)',
+      'form.levelOpt2': 'Средний (B1-B2)',
+      'form.levelOpt3': 'Продвинутый (C1-C2)',
+      'form.goal': 'Цель обучения',
+      'form.goalOpt0': 'Выберите цель',
+      'form.goalOpt1': 'Разговорный английский',
+      'form.goalOpt2': 'Для работы / карьеры',
+      'form.goalOpt3': 'Для путешествий',
+      'form.goalOpt4': 'IELTS / TOEFL',
+      'form.goalOpt5': 'Школа / ЕГЭ / ОГЭ',
+      'form.goalOpt6': 'Другое',
+      'form.comment': 'Комментарий',
+      'form.commentPh': 'Удобное время для связи, вопросы...',
+      'form.submit': 'Записаться на пробный урок →',
+      'footer.logo': 'English with Anna',
+      'footer.tagline': '"Пределы моего языка — пределы моего мира"',
+      'footer.copy': '© 2026 Анна Соколова · Преподаватель английского · Сделано с ♥ и большим количеством чая'
+    },
+    en: {
+      'logo': 'English with Anna',
+      'nav.about': 'About',
+      'nav.pricing': 'Pricing',
+      'nav.reviews': 'Reviews',
+      'nav.contact': 'Book a lesson',
+      'hero.tagline': '🇬🇧 Certified English Tutor',
+      'hero.title': 'Speak <span class="accent">English</span> with confidence',
+      'hero.desc': 'Individual online lessons with a tutor who is in love with British culture. From your first "Hello" to fluent conversation — step by step.',
+      'hero.cta1': 'Book a trial lesson →',
+      'hero.cta2': 'See pricing',
+      'book1.title': 'Grammar<br>&amp; Beyond',
+      'book1.sub': 'Advanced Level',
+      'book2.title': 'Speak<br>English',
+      'book2.sub': 'Like a Native',
+      'about.quote': '"Learning is a treasure that will follow its owner everywhere"',
+      'about.label': 'About me',
+      'about.title': 'Your guide to the English language<span class="dot">.</span>',
+      'about.subtitle': 'For 8 years I\'ve been helping adults and teens fall in love with English',
+      'about.hello': 'Hello! I\'m Anna 👋',
+      'about.p1': 'Certified tutor with a <strong>CELTA</strong> diploma (Cambridge) and a linguistics degree. Over 8 years I\'ve given more than 3000 lessons and helped hundreds of students reach their goals — from moving abroad to scoring IELTS 7.5+.',
+      'about.p2': 'My method is live communication from the very first lesson, up-to-date materials (The Economist, TED Talks, Netflix) and a clear structure. No cramming — only what really works.',
+      'about.p3': 'I specialise in conversational English, IELTS/TOEFL preparation and Business English for IT and finance.',
+      'cred.1': 'CELTA Certificate',
+      'cred.2': 'C2 Proficient',
+      'cred.3': 'IELTS Trainer',
+      'cred.4': 'Business English',
+      'stat.1': 'years of experience',
+      'stat.2': 'happy students',
+      'stat.3': 'lessons given',
+      'stat.4': '% satisfaction',
+      'pricing.label': 'Pricing',
+      'pricing.title': 'Lesson rates<span class="dot">.</span>',
+      'pricing.subtitle': 'Transparent prices with no hidden fees. First lesson — at a discount',
+      'price1.title': 'Trial Lesson',
+      'price1.duration': '45 minutes · online',
+      'price1.f1': 'Level assessment',
+      'price1.f2': 'Personal learning plan',
+      'price1.f3': 'Materials recommendations',
+      'price1.f4': 'No obligations',
+      'price1.cta': 'Book trial',
+      'price2.badge': 'Best value',
+      'price2.title': 'Monthly Pack',
+      'price2.duration': '8 lessons of 60 minutes',
+      'price2.per': ' / mo',
+      'price2.f1': 'Save 10% vs single lessons',
+      'price2.f2': 'Homework with feedback',
+      'price2.f3': '24/7 Telegram support',
+      'price2.f4': 'Access to materials library',
+      'price2.f5': 'Monthly progress report',
+      'price2.cta': 'Choose plan',
+      'price3.title': 'Single Lesson',
+      'price3.duration': '60 minutes · online',
+      'price3.f1': 'Individual lesson',
+      'price3.f2': 'Any topic of your choice',
+      'price3.f3': 'Homework included',
+      'price3.f4': 'No package commitment',
+      'price3.cta': 'Book now',
+      'reviews.label': 'Testimonials',
+      'reviews.title': 'Student reviews<span class="dot">.</span>',
+      'reviews.subtitle': 'Real stories of those who already speak English',
+      'review1.text': 'I\'ve been studying with Anna for six months. I finally stopped being afraid to speak! The lessons are interesting, there\'s always speaking practice. I passed IELTS with 7.0 — thank you so much!',
+      'review1.role': 'Moving to Canada · IELTS 7.0',
+      'review2.text': 'I prepared for an interview at an international company in 2 months. We went through all possible questions and worked on business vocabulary. I got the job! Anna is a true pro.',
+      'review2.role': 'IT Manager · Google',
+      'review3.text': 'My son is 12 and has been studying for two years. The progress is visible — he became the best at school and started watching series in the original. Anna knows how to connect with teenagers.',
+      'review3.role': 'Student\'s mom',
+      'form.label': 'Book a lesson',
+      'form.title': 'Book a trial lesson<span class="dot">.</span>',
+      'form.subtitle': 'Leave a request — I\'ll get back to you within 24 hours',
+      'form.bg': 'Let\'s start!',
+      'form.success': '✓ Thank you! Your request has been sent. I\'ll contact you shortly.',
+      'form.name': 'Your name <span class="req">*</span>',
+      'form.namePh': 'What should I call you?',
+      'form.phone': 'Phone / Telegram <span class="req">*</span>',
+      'form.phonePh': '+7 ... or @username',
+      'form.level': 'Your level',
+      'form.levelOpt0': 'Not sure / needs assessment',
+      'form.levelOpt1': 'Beginner (A1-A2)',
+      'form.levelOpt2': 'Intermediate (B1-B2)',
+      'form.levelOpt3': 'Advanced (C1-C2)',
+      'form.goal': 'Learning goal',
+      'form.goalOpt0': 'Choose a goal',
+      'form.goalOpt1': 'Conversational English',
+      'form.goalOpt2': 'For work / career',
+      'form.goalOpt3': 'For travel',
+      'form.goalOpt4': 'IELTS / TOEFL',
+      'form.goalOpt5': 'School / exams',
+      'form.goalOpt6': 'Other',
+      'form.comment': 'Comment',
+      'form.commentPh': 'Preferred time to contact, questions...',
+      'form.submit': 'Book a trial lesson →',
+      'footer.logo': 'English with Anna',
+      'footer.tagline': '"The limits of my language mean the limits of my world"',
+      'footer.copy': '© 2026 Anna Sokolova · English Tutor · Made with ♥ and lots of tea'
+    }
+  };
+
+  // Typewriter phrases per language
+  const typewriterPhrases = {
+    ru: [
+      "Учим английский вместе!",
+      "От 'Hello' до свободного общения",
+      "Говорите уверенно",
+      "Ваш путь начинается здесь"
+    ],
+    en: [
+      "Let's learn English together!",
+      "From 'Hello' to fluency",
+      "Speak with confidence",
+      "Your journey starts here"
+    ]
+  };
+
+  // ===== LANGUAGE SWITCHER =====
+  let currentLang = localStorage.getItem('lang') || 'ru';
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang;
+
+    // Fade-out effect
+    document.body.classList.add('lang-switching');
+
+    setTimeout(() => {
+      const dict = translations[lang];
+      // Text content
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+      // Placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+      });
+
+      // Active button
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      // Restart typewriter with new phrases
+      restartTypewriter();
+
+      document.body.classList.remove('lang-switching');
+    }, 250);
+  }
+
+  // Init language buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      if (lang !== currentLang) applyLanguage(lang);
+    });
+  });
+
+  // ===== TYPEWRITER =====
+  let phraseIdx = 0, charIdx = 0, isDeleting = false;
+  let typewriterTimer = null;
+  const tw = document.getElementById('typewriter');
+
+  function type() {
+    const phrases = typewriterPhrases[currentLang];
+    const current = phrases[phraseIdx];
+    if (isDeleting) {
+      tw.textContent = current.substring(0, charIdx--);
+      if (charIdx < 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        typewriterTimer = setTimeout(type, 400);
+        return;
+      }
+      typewriterTimer = setTimeout(type, 40);
+    } else {
+      tw.textContent = current.substring(0, charIdx++);
+      if (charIdx > current.length) {
+        isDeleting = true;
+        typewriterTimer = setTimeout(type, 2000);
+        return;
+      }
+      typewriterTimer = setTimeout(type, 80);
+    }
+  }
+
+  function restartTypewriter() {
+    if (typewriterTimer) clearTimeout(typewriterTimer);
+    phraseIdx = 0;
+    charIdx = 0;
+    isDeleting = false;
+    tw.textContent = '';
+    type();
+  }
+
+  // ===== SCROLL ANIMATIONS =====
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        if (entry.target.classList.contains('stats')) {
+          entry.target.querySelectorAll('.stat-number').forEach(el => {
+            const target = +el.dataset.target;
+            let current = 0;
+            const step = target / 50;
+            const timer = setInterval(() => {
+              current += step;
+              if (current >= target) {
+                el.textContent = target + (target === 98 ? '' : '+');
+                clearInterval(timer);
+              } else {
+                el.textContent = Math.floor(current);
+              }
+            }, 30);
+          });
+        }
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ===== FORM =====
+  document.getElementById('trialForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = {
+      name: this.name.value,
+      phone: this.phone.value,
+      level: this.level.value,
+      goal: this.goal.value,
+      comment: this.comment.value
+    };
+    console.log('Заявка:', data);
+    document.getElementById('successMsg').style.display = 'block';
+    this.reset();
+    setTimeout(() => {
+      document.getElementById('successMsg').style.display = 'none';
+    }, 5000);
+  });
+
+  // ===== SMOOTH SCROLL =====
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ===== INIT =====
+  applyLanguage(currentLang);
+</script>
+
+</body>
+</html>
